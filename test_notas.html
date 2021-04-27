@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8"/>
+		<title>JS05 Exercici 07</title>
+		<link rel="stylesheet" type="text/css" href="hoja_estilos.css">
+	</head>
+
+	<body>
+
+		<header>
+			<h1>Calculadora de notas</h1>
+			<h4>Para calcular el resultado de los test</h4>
+		</header>
+
+		<main>
+			<section>
+				<h2>Entrada de datos</h2>
+				<h4>Parámetros</h4>
+		
+				<label>Preguntas:</label>
+				<input type="number" min="0" id="numPreguntas"/><br/>
+
+				<label>Descuento por error:</label>
+				<select id="descuentos">
+					<option value="0">0%</option>
+					<option value="0.25">25%</option>
+					<option value="0.33">33%</option>
+					<option value="0.50">50%</option>
+					<option value="0.66">66%</option>
+					<option value="0.75">75%</option>
+					<option value="1">100%</option>
+				</select><br/>
+
+				<h4>Resultados</h4>
+
+				<label>Aciertos:</label>
+				<input type="number" min="0" id="numAciertos"/><br/>
+
+				<label>Errores:</label>
+				<input type="number" min="0" id="numErrores"/><br/>
+				
+				<button type="button" onclick="calcular();">Calcular</button><br/>
+				
+			</section>
+
+			<section>
+				<span>Aciertos:</span><output id="n_aciertos"></output><br/>
+
+				<span>Errores:</span><output id="n_errores"></output><br/>
+
+				<span>No Contestadas:</span><output id="no_contestadas"></output><br/>
+
+				<span>Nota sin descontar:</span><output id="sin_descontar"></output><br/>
+
+				<span>Final sobre 10:</span><output id="n_final"></output><br/><hr/><br/>
+
+				<output id="resultado"></output><br/>
+			</section>
+		</main>
+
+
+		<script>
+			function calcular(){	
+				var numP = parseInt(numPreguntas.value);
+				var numA = parseInt(numAciertos.value);
+				var numE = parseInt(numErrores.value);
+				var descuento = parseFloat(descuentos.value);
+				
+				var noContestadas = numP-(numA+numE);
+				var notaSinDes = (10/numP)*numA;
+				var nota = notaSinDes - (((10/numP)*descuento)*numE);
+
+
+				//Mostrar resultados
+
+				if(numA>numP || numE>numP || numP==0 || (numA+numE>numP)){
+					n_aciertos.innerHTML = '-';
+					n_errores.innerHTML = '-';
+					no_contestadas.innerHTML = '-';
+					sin_descontar.innerHTML = '-';
+					n_final.innerHTML = '-';
+					resultado.innerHTML = 'Revisa los datos';
+					resultado.style.color = 'red';	
+
+				}else{
+					
+					n_aciertos.innerHTML = numA;
+					n_errores.innerHTML = numE;
+					no_contestadas.innerHTML = noContestadas;
+					sin_descontar.innerHTML = notaSinDes.toFixed(2);
+					n_final.innerHTML = nota.toFixed(2);
+
+					if(nota<5){
+						resultado.innerHTML = 'SUSPENSO';
+						resultado.style.color = 'red';
+					}else{
+						if(nota<9){
+							resultado.innerHTML = 'APROBADO';
+							resultado.style.color = 'green';
+						}else{
+							resultado.innerHTML = 'EXCELENTE';
+							resultado.style.color = 'green';
+						}
+					}
+				}
+				
+			}
+
+
+			//Creamos el pseudocodigo
+		
+			//Utilidad: Crear un programa que recoja preguntas acertadas y erroneas y nos devuelva la nota FINAL
+
+			//Variables de entrada: numPreguntas (Integer), descPreguntaFallada (select), aciertos(integer), errores (integer)
+
+			//Variable EXTRA para calculos: notaPorPregunta (10/numPreguntas), descuentoPorPregunta (notaPregunta*descPreguntaFallada)
+
+			//Variables de salida a mostrar:  preguntasNoContestadas (numPreguntas-(aciertos+errores), notaSin, notaCon, notaTexto
+			
+			
+
+		</script>
+	</body>
+</html>
+
